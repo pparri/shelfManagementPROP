@@ -31,6 +31,7 @@ public class DriverCtrl_Algoritme
 
     Map<String, ArrayList<Double>> input = llegirInput();
     alg_ctrl = new CtrlAlgoritme(input);
+    System.out.println("ESTRUCTURES CREADES\n");
 
   }
 
@@ -44,7 +45,7 @@ public class DriverCtrl_Algoritme
     System.out.println("2. Generar prestatge 2-A.");
     System.out.println("3. Executar i mostrar DFS.");
     System.out.println("4. Executar i mostrar Kruskal.");
-    System.out.println("5. Consultar Prestatge.\n");
+    System.out.println("5. Consultar Prestatge.");
     System.out.println("6. Sortir.\n");
   }
 
@@ -97,13 +98,15 @@ public class DriverCtrl_Algoritme
     } 
     else 
     {
+      System.out.print("Introdueix la quantitat de productes a AFEGIR: ");
       N = sc.nextInt();
       sc.nextLine();
       id = new String[N];
       sims = new Double[N][N];
       for (int i = 0; i < N; ++i) {
+          System.out.print("Introdueix el ID del producte: " + (i + 1) + "\n");
           id[i] = sc.nextLine().trim();
-          
+          System.out.print("Introdueix les similituds per al producte " + id[i] + " (separades per espai): ");
           String[] simArray = sc.nextLine().split(" ");
           
           if (simArray.length != N) {
@@ -210,23 +213,26 @@ public class DriverCtrl_Algoritme
      */
    static public void consultarPrestatge()
     {
-      ArrayList<String> prestatge = dom_ctrl.consultarPrestatge();
-        System.out.println("El contingut del Prestatge es el seguent: \n");
-        System.out.println("_______________________________________________________________________________________________________________");
-        for (String element : prestatge) {
-            System.out.print("|" + element + "|");
+        if (prestatge != null)
+        {
+          System.out.println("El contingut del Prestatge es el seguent: \n");
+          System.out.println("_______________________________________________________________________________________________________________");
+          for (String element : prestatge) {
+              System.out.print("|" + element + "|");
+          }
+          System.out.print("\n");
+          System.out.print("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
+          System.out.print("\n");
         }
-        System.out.print("\n");
-        System.out.print("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
-        System.out.print("\n");
-	}
+        else System.out.println("Primer genera un prestatge.\n");
+	  }
 
      /**
      * Consulta el Arbre d'expansió mínima (KRUSKAL)
      */
     static public void mostrarMST(List<DistribucioKruskal.Aresta> mst) 
     {
-        System.out.println("MST generado:\n");
+        System.out.println("MST generat:\n");
         for (DistribucioKruskal.Aresta aresta : mst) {
             System.out.println(aresta.producte1 + " -- " + aresta.producte2 + " (Similitud: " + aresta.Similitud + ")");
         }
@@ -238,7 +244,7 @@ public class DriverCtrl_Algoritme
      */
     static public void mostrarCicleEuleria(List<String> cicloEuleriano) 
     {
-        System.out.println("Ciclo Euleriano generado:");
+        System.out.println("Ciclo Euleriano generat:");
         for (String producto : cicloEuleriano) {
             System.out.print(producto + " ");
         }

@@ -161,7 +161,22 @@ public class CtrlDomini
     }
 
     /**
+     * Consulta la CISTELLA
+     */
+    public void consultarCistella()
+    {
+        System.out.println("\nEl contingut de la Cistella es el següent: ");
+        for (Producte prod : cistella)
+        {
+            System.out.println("Nom del Producte: "+prod.getNom());
+            System.out.println("Similituds: "+prod.getSimilituds());
+        }
+        System.out.println("\n");
+    }
+
+    /**
      * Consulta el PRESTATGE
+     * @return Retorna el Prestatge
      */
     public ArrayList<String> consultarPrestatge()
     {
@@ -188,20 +203,6 @@ public class CtrlDomini
         System.out.println("Cicle Euleria generat:");
         for (String producto : cicloEuleriano) {
             System.out.print(producto + " ");
-        }
-        System.out.println("\n");
-    }
-
-    /**
-     * Consulta la CISTELLA
-     */
-    public void consultarCistella()
-    {
-        System.out.println("\nEl contingut de la Cistella es el següent: ");
-        for (Producte prod : cistella)
-        {
-            System.out.println("Nom del Producte: "+prod.getNom());
-            System.out.println("Similituds: "+prod.getSimilituds());
         }
         System.out.println("\n");
     }

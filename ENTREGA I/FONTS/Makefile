@@ -26,14 +26,14 @@ domini: jars
 	java -jar $(JAR_OUTPUT)DriverCtrl_Domini.jar
 
 algoritme: jars
-	#java -jar $(JAR_OUTPUT)DriverCtrl_Algoritme.jar	
+	java -jar $(JAR_OUTPUT)DriverCtrl_Algoritme.jar	
 
 jars: class controlador
-	javac -cp $(CLASS_OUTPUT):$(LIBS) -d $(CLASS_OUTPUT) $(CLASS_INPUT) ./drivers/DriverCtrl_Domini.java #./drivers/DriverCtrl_Algoritme.java 
+	javac -cp $(CLASS_OUTPUT):$(LIBS) -d $(CLASS_OUTPUT) $(CLASS_INPUT) ./drivers/DriverCtrl_Domini.java ./drivers/DriverCtrl_Algoritme.java 
 	echo "Main-Class: drivers.DriverCtrl_Domini" > ./drivers/DriverCtrl_Domini.mf
 	jar cmvf ./drivers/DriverCtrl_Domini.mf $(JAR_OUTPUT)DriverCtrl_Domini.jar -C $(CLASS_OUTPUT) .
-	#echo "Main-Class: drivers.DriverCtrl_Algoritme" > ./drivers/DriverCtrl_Algoritme.mf 
-	#jar cmvf ./drivers/DriverCtrl_Algoritme.mf $(JAR_OUTPUT)DriverCtrl_Algoritme.jar -C $(CLASS_OUTPUT) .
+	echo "Main-Class: drivers.DriverCtrl_Algoritme" > ./drivers/DriverCtrl_Algoritme.mf 
+	jar cmvf ./drivers/DriverCtrl_Algoritme.mf $(JAR_OUTPUT)DriverCtrl_Algoritme.jar -C $(CLASS_OUTPUT) .
 
 controlador: class $(SRC_CONTROLADOR)
 	javac -cp $(CLASS_OUTPUT):$(LIBS) -d $(CLASS_OUTPUT) $(SRC_CONTROLADOR)

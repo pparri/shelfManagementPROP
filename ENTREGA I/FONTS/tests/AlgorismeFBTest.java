@@ -420,4 +420,5 @@ public class AlgorismeFBTest {
         assertEquals(0.0, algorismeFB.getScoreMax(), 0.0001);
         assertNull(algorismeFB.getDefSolution());
     }
+    
 }

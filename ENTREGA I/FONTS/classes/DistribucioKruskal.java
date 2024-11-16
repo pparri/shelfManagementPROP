@@ -4,7 +4,7 @@ import java.util.*;
 
 public class DistribucioKruskal {
 
-     /*
+    /*
      * Algorisme que busca la distribució òptima a partir de l'algorisme de Kruskal
       El resultat ha de ser un arbre d'expansió connex sense resultats, en el qual la 
      * suma de les similituds de les arestes que el formen, ha de ser màxim
@@ -24,8 +24,9 @@ public class DistribucioKruskal {
     }
 
     /**
-     * Métode per configurar el mapaCis
-     * @param mapaCis Mapa que conte cada producte y el seu vector de similituds
+     * Métode per configurar la cistella de productes (el mapaCis).
+     * 
+     * @param mapaCis Mapa que conté cada producte i el seu vector de similituds.
      */
     public void configurarMapa(Map<String, ArrayList<Double>> mapaCis)
     {
@@ -42,24 +43,66 @@ public class DistribucioKruskal {
       
     }
 
+    /**
+     * Retorna la cistella de productes (Mapa).
+     */
+    public static Map<String, double[]> getMapa() {
+        return Mapa;
+    }
 
+    /**
+     * Retorna la llista d'arestes (Arestes).
+     */
+    public static List<Aresta> getArestes() {
+        return Arestes;
+    }
+
+    /**
+     * Retorna la llista de productes (LlistaProductes).
+     */
+    public static List<String> getLlistaProductes() {
+        return LlistaProductes;
+    }
+
+    /**
+     * Funció per inicialitzar la variable Mapa (pels tests).
+     */
+    public static void setMapa(Map<String, double[]> map) {
+        Mapa = map;
+    }
+
+    /**
+     * Funció per inicialitzar la variable LlistaProductes (pels tests).
+     */
+    public static void setLlistaProductes(List<String> llistaP) {
+        LlistaProductes = llistaP;
+    }
+
+    /**
+     * Funció per inicialitzar la variable Arestes (pels tests).
+     */
+    public static void setArestes(List<Aresta> arests) {
+        Arestes = arests;
+    }
+
+
+    /**
+    * Classe que representa una aresta entre dos productes amb una similitud
+    */ 
     public static class Aresta implements Comparable<Aresta> {
         
-        /**
-        * Classe que representa una aresta entre dos productes amb una similitud
-        */      
-
         public String producte1;
         public String producte2;
         public double Similitud;
 
-          /**
+        /**
          * Constructor de la classe Aresta.
-         * @param producte1 Nom del producte1
-         * @param producte2 Nom del producte2
-         * @param Similitud Similitud entre producte1 i producte2
+         * 
+         * @param producte1 Nom del producte1.
+         * @param producte2 Nom del producte2.
+         * @param Similitud Similitud entre el producte1 i el producte2.
         */
-        Aresta(String producte1, String producte2, double Similitud) {
+        public Aresta(String producte1, String producte2, double Similitud) {
             this.producte1 = producte1;
             this.producte2 = producte2;
             this.Similitud = Similitud;
@@ -68,17 +111,19 @@ public class DistribucioKruskal {
         @Override
 
         /**
-         * Funció que ens serveix per a ordenar les arestes de major a menor similitud
-         * @param other Segona aresta amb la que comparem
-        */
-
+         * Funció que ens serveix per a ordenar les arestes de major a menor similitut.
+         * 
+         * @param other Segona aresta amb la que comparem.
+         */
         public int compareTo(Aresta other) {
             return Double.compare(other.Similitud, this.Similitud); 
         }
     }
 
-    // Construcció d'arestes basades en la matriu de similituds
-    private static void construirArestes() {
+    /**
+     * Construcció d'arestes basada en la matriu de similituds.
+     */
+    public static void construirArestes() {
         Arestes = new ArrayList<>();
         int N = LlistaProductes.size();
         for (int i = 0; i < N; ++i) {
@@ -95,10 +140,12 @@ public class DistribucioKruskal {
     }
 
     /**
-     * Funció que troba el pare del grup al que perteneix node
-     * @param node producte
+     * Funció que troba el pare del grup al que perteneix node.
+     * 
+     * @param pare 
+     * @param node Producte.
     */
-    private static String find(Map<String, String> pare, String node) {
+    public static String find(Map<String, String> pare, String node) {
         if (!pare.get(node).equals(node)) { //si no hem arribat al node pare
             pare.put(node, find(pare, pare.get(node)));
             /* Si A --> B i B ---> C, find ens porta a C i actualitza el map */
@@ -135,9 +182,9 @@ public class DistribucioKruskal {
     /**
      * Generem un cicle eulerià duplicant les arestes
      * Un cicle eulerià és un recorregut en un graf que passa exactament un cop per cada aresta
+     * 
      * @param mst Minimum Spanning Tree generat per Kruskal
      */
-
     public static List<String> generaCicleEuleria(List<Aresta> mst) {
         Map<String, List<String>> connexions = new HashMap<>();
         for (Aresta aresta : mst) { //creem mapa de connexions duplicant les arestes
