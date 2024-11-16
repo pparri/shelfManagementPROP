@@ -1,0 +1,248 @@
+package drivers;
+
+import controladors.CtrlAlgoritme;
+import java.util.*;
+import java.io.File;
+
+import classes.DistribucioKruskal;
+import classes.Producte;
+
+/**
+ * Driver Ctrl_Algoritme
+ */
+public class DriverCtrl_Algoritme
+{
+  private static CtrlAlgoritme alg_ctrl = null;
+  protected static Scanner sc = null;
+  public static int num_opts = 6;
+
+  //Resultats algorismes
+    static private ArrayList<String> prestatge;    //prestatge final obtingut a partir de FB / 2-aprox
+    static private List<DistribucioKruskal.Aresta> mst; //resultat kruskal
+    static private List<String> cicleEuleria; //resultat DFS
+
+
+  /**
+   * Inicialització del driver
+   */
+  private static void init_ctrl()
+  {
+    sc = new Scanner(System.in);
+
+    Map<String, ArrayList<Double>> input = llegirInput();
+    alg_ctrl = new CtrlAlgoritme(input);
+
+  }
+
+    /**
+   * Llegenda de funcions
+   */
+  private static void mostrarVista()
+  {
+
+    System.out.println("1. Generar prestatge FB.");
+    System.out.println("2. Generar prestatge 2-A.");
+    System.out.println("3. Executar i mostrar DFS.");
+    System.out.println("4. Executar i mostrar Kruskal.");
+    System.out.println("5. Consultar Prestatge.\n");
+    System.out.println("6. Sortir.\n");
+  }
+
+      /**
+   * Llegir input
+   */
+  private static Map<String,ArrayList<Double>> llegirInput() 
+  {
+    System.out.print("Afegir els productes a mà (1) o des d'un fitxer (2)? ");
+    int metodeEntrada = sc.nextInt();
+    sc.nextLine();
+
+    int N;
+    String[] id;
+    Double[][] sims;
+    Map<String,ArrayList<Double>> input = new LinkedHashMap<>();
+
+    if (metodeEntrada == 2) {
+      System.out.print("Tria la quantitat de nodes que vols -> {1,3,5,8,11}: ");
+      String filepath = " ";
+      int c = sc.nextInt();
+      sc.nextLine();
+      if (c == 1) filepath = "drivers/recursos/afegirProductes1nodos.txt";
+      else if (c == 3) filepath = "drivers/recursos/afegirProductes3nodos.txt";
+      else if (c == 5) filepath = "drivers/recursos/afegirProductes5nodos.txt";
+      else if (c == 8) filepath = "drivers/recursos/afegirProductes8nodos.txt";
+      else if (c == 11) filepath = "drivers/recursos/afegirProductes11nodos.txt";
+      File fitxer = new File("");
+      try {
+          fitxer = new File(filepath);
+          if (!fitxer.exists()) throw new Exception("El fitxer no existeix");   
+      } catch (Exception e) {
+          System.out.println("Error: "+e.getMessage());
+      }
+      try (Scanner fileScanner = new Scanner(fitxer)) {
+          id = new String[c];
+          sims = new Double[c][c];
+          for (int i = 0; i < c; ++i) {
+              id[i] = fileScanner.nextLine().trim();
+              String[] simArray = fileScanner.nextLine().split(" ");
+              for (int j = 0; j < simArray.length; j++) {
+                  sims[i][j] = Double.parseDouble(simArray[j]);
+              }
+            ArrayList<Double> llistaSim = new ArrayList<>(Arrays.asList(sims[i]));
+           input.put(id[i], llistaSim);
+          }
+      } catch (Exception e) {
+          System.out.println("Error: " + e.getMessage());
+      }
+    } 
+    else 
+    {
+      N = sc.nextInt();
+      sc.nextLine();
+      id = new String[N];
+      sims = new Double[N][N];
+      for (int i = 0; i < N; ++i) {
+          id[i] = sc.nextLine().trim();
+          
+          String[] simArray = sc.nextLine().split(" ");
+          
+          if (simArray.length != N) {
+              System.out.println("Error: Número incorrecte de similituds per al producte " + id[i]);
+              return input; 
+          }
+      
+          for (int j = 0; j < N; j++) {
+              try {
+                  sims[i][j] = Double.parseDouble(simArray[j]);
+              } catch (NumberFormatException e) {
+                  System.out.println("Error: La similitud proporcionada no és un número vàlid: " + simArray[j]);
+                  return input;
+              }
+          }
+          ArrayList<Double> llistaSim = new ArrayList<>(Arrays.asList(sims[i]));
+          input.put(id[i], llistaSim);
+      }
+    }
+    return input;
+  }
+
+    /**
+     * Mètode principal del Driver.
+     *
+     * @param args Arguments de la línia de comandes.
+     */
+    public static void main (String [] args)
+    {
+        //Inicialitzacio del Driver
+        init_ctrl();
+
+        System.out.println("Driver de testeig del CONTROLADOR DE ALGORITME!\n");
+
+        int opcio = -1;
+        int s = 0;
+        mostrarVista();
+        System.out.println("Tria una opció: ");
+        opcio = sc.nextInt();
+        sc.nextLine();
+        if (opcio < 1 || opcio > num_opts) System.out.println("Opció no vàlida!!\n");
+        while (opcio > 0 && opcio <= num_opts)
+        {
+            switch(opcio)
+            {
+              case 1:
+                  try {
+                  prestatge = alg_ctrl.executarForcaBruta();
+                    System.out.println("\nSUCCESS: Prestatge creat.\n");
+                  } catch (Exception e){
+                    System.out.println("Error: "+e.getMessage());
+                }
+                break;
+              case 2:
+                try {
+                  prestatge = alg_ctrl.executarDosAprox();
+                  System.out.println("\nSUCCESS: Prestatge creat.\n");
+                  }catch (Exception e){
+                      System.out.println("Error: "+e.getMessage());
+                  }
+                  break;
+              case 3:
+                try {
+                  cicleEuleria = alg_ctrl.executarDFS();
+                  mostrarCicleEuleria(cicleEuleria);
+                 } catch (Exception e){
+                  System.out.println("Error: "+e.getMessage());
+                 }
+                break;
+              case 4:
+                try {
+                  mst = alg_ctrl.executarKruskal();
+                  mostrarMST(mst);
+                } catch (Exception e){
+                    System.out.println("Error: "+e.getMessage());
+                }
+                break;
+
+              case 5: 
+              try {
+                consultarPrestatge();
+              } catch (Exception e){
+                System.out.println("Error: "+e.getMessage());
+            }
+            break;
+              
+              case 6:
+              System.out.print("Moltes gràcies per provar el DRIVER!\n");
+              return;
+            }
+
+            mostrarVista();
+            opcio = sc.nextInt();
+            sc.nextLine();
+            if (opcio < 1 || opcio > num_opts) System.out.println("Opció no vàlida!!\n");
+        }
+
+      }
+
+/* ----------------------------------FUNCIONS CONSULTA------------------------------ */
+
+    /**
+     * Consulta el PRESTATGE
+     */
+   static public void consultarPrestatge()
+    {
+      ArrayList<String> prestatge = dom_ctrl.consultarPrestatge();
+        System.out.println("El contingut del Prestatge es el seguent: \n");
+        System.out.println("_______________________________________________________________________________________________________________");
+        for (String element : prestatge) {
+            System.out.print("|" + element + "|");
+        }
+        System.out.print("\n");
+        System.out.print("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
+        System.out.print("\n");
+	}
+
+     /**
+     * Consulta el Arbre d'expansió mínima (KRUSKAL)
+     */
+    static public void mostrarMST(List<DistribucioKruskal.Aresta> mst) 
+    {
+        System.out.println("MST generado:\n");
+        for (DistribucioKruskal.Aresta aresta : mst) {
+            System.out.println(aresta.producte1 + " -- " + aresta.producte2 + " (Similitud: " + aresta.Similitud + ")");
+        }
+        System.out.print("\n");
+    }
+
+    /**
+     * Consulta el Cicle Eulerià generat fent un DFS en base al Kruskal
+     */
+    static public void mostrarCicleEuleria(List<String> cicloEuleriano) 
+    {
+        System.out.println("Ciclo Euleriano generado:");
+        for (String producto : cicloEuleriano) {
+            System.out.print(producto + " ");
+        }
+        System.out.println("\n");
+    }
+
+  }

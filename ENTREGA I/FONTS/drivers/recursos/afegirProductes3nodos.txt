@@ -1,0 +1,6 @@
+ulleres
+1 0.4 0.1
+monoculars
+0.4 1 0.9
+lentilles
+0.1 0.9 1

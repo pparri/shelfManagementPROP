@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"classes","l":"AlgorismeFB"},{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"controladors","l":"CtrlAlgoritme"},{"p":"controladors","l":"CtrlDomini"},{"p":"classes","l":"DistribucioKruskal"},{"p":"classes","l":"Prestatge"},{"p":"classes","l":"Producte"}];updateSearchResults();

@@ -1,0 +1,3 @@
+paper
+pizza
+0.9
