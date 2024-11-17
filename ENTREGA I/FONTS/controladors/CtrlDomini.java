@@ -55,8 +55,8 @@ public class CtrlDomini
      * 
      * @param id Noms (identificadors) dels productes.
      * @param similituds Vectors de similitud(s) dels producte(s) amb altres productes.
-     * @param N Quantitat de productes a afegir
-     * @return El nou size del vector Cistella
+     * @param N Quantitat de productes a afegir.
+     * @return El nou size del vector Cistella.
      */
     public int afegirProducte(String[] ids, Double[][] similituds, int N) throws Exception 
     {
@@ -101,10 +101,11 @@ public class CtrlDomini
      * Elimina un producte de la gestió de productes.
      * 
      * @param id Nom (identificador) del producte que es vol eliminar.
+     * @return El nou size del vector Cistella.
      */
-	public void eliminarProducte(String id) throws Exception
+	public int eliminarProducte(String id) throws Exception
 	{
-		if (mapaCis.remove(id) == null) throw new Exception("Producte no existeix.");
+		if (mapaCis.remove(id) == null) throw new Exception("El Producte no existeix.\n");
 		else 
         {
             int pos = 0;
@@ -117,11 +118,13 @@ public class CtrlDomini
                         if (i != pos) cistella.get(i).eliminaSimilitud(pos);
                     }
                     cistella.remove(produ);
-                    return;
+                    int newSize = cistella.size();
+                    return newSize;
                 }
                 ++pos;
             }
         }
+        return 0;
 	}
 
     /**
@@ -218,8 +221,9 @@ public class CtrlDomini
      * @param producteB Segon producte al qual se li vol modificar un grau de similitud.
      * @param sim Nou grau de similitud que es vol afegir als productes.
      */
-    public void modificarGrauSimil(String producteA, String producteB, double sim)
+    public void modificarGrauSimil(String producteA, String producteB, double sim) throws Exception
     {
+        if (sim < 0 || sim > 1) throw new Exception("La similitud no es correcte.\n");
         int posA = 0;
         int posB = 0;
         int it = 0;
@@ -228,10 +232,14 @@ public class CtrlDomini
             if (s.equals(producteB)) posB = it;
             ++it; 
         }
+        int done = 0;
+        int ret = 1;
         for (Producte prod : cistella) {
-            if (prod.getNom().equals(producteA)) prod.modificarGrauSimilP(posB, sim);
-            if (prod.getNom().equals(producteB)) prod.modificarGrauSimilP(posA, sim);
+            if (prod.getNom().equals(producteA)) {ret = prod.modificarGrauSimilP(posB, sim); ++done;}
+            if (prod.getNom().equals(producteB)) {ret = prod.modificarGrauSimilP(posA, sim); ++done;}
         }
+        if (done != 2) throw new Exception("Un dels dos productes no existeix o n'hi ha més d'un.\n");
+        else if (ret == -1) throw new Exception("La similitud no es correcte\n");
     }
 
 }

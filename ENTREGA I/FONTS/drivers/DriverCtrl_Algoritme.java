@@ -31,7 +31,7 @@ public class DriverCtrl_Algoritme
 
     Map<String, ArrayList<Double>> input = llegirInput();
     alg_ctrl = new CtrlAlgoritme(input);
-    System.out.println("ESTRUCTURES CREADES\n");
+    if (num_opts != 0) System.out.println("ESTRUCTURES CREADES\n");
 
   }
 
@@ -54,9 +54,23 @@ public class DriverCtrl_Algoritme
    */
   private static Map<String,ArrayList<Double>> llegirInput() 
   {
-    System.out.print("Afegir els productes a mà (1) o des d'un fitxer (2)? ");
-    int metodeEntrada = sc.nextInt();
-    sc.nextLine();
+    int metodeEntrada = 0;
+    boolean validM = false;
+    while (!validM)
+    {
+        System.out.print("Afegir els productes a mà (1) o des d'un fitxer (2)? ");
+        if (sc.hasNextInt())
+        {
+            metodeEntrada = sc.nextInt();
+            if (metodeEntrada == 1 || metodeEntrada == 2) validM = true;
+            else System.out.println("Error: Mètode invàlid.");
+        }
+        else
+        {
+            System.out.println("Error: No has introduït un enter.");
+            sc.next();
+        }
+    }
 
     int N;
     String[] id;
@@ -76,9 +90,10 @@ public class DriverCtrl_Algoritme
       File fitxer = new File("");
       try {
           fitxer = new File(filepath);
-          if (!fitxer.exists()) throw new Exception("El fitxer no existeix");   
+          if (!fitxer.exists()) throw new Exception("El fitxer no existeix.\n");
       } catch (Exception e) {
           System.out.println("Error: "+e.getMessage());
+          num_opts = 0;
       }
       try (Scanner fileScanner = new Scanner(fitxer)) {
           id = new String[c];
@@ -96,10 +111,30 @@ public class DriverCtrl_Algoritme
           System.out.println("Error: " + e.getMessage());
       }
     } 
-    else 
+    else if (metodeEntrada == 1)
     {
-      System.out.print("Introdueix la quantitat de productes a AFEGIR: ");
-      N = sc.nextInt();
+      boolean valid = false;
+      N = 0;
+      while (!valid)
+      {
+          System.out.print("Introdueix la quantitat de productes a AFEGIR: ");
+          if (sc.hasNextInt())
+          {
+              N = sc.nextInt();
+              valid = true;
+          }
+          else
+          {
+              System.out.println("Error: No has introduït un enter.");
+              sc.next();
+          }
+      }
+      while (N < 1)
+      {
+        System.out.println("Error: S'han de indicar 1 o més productes.\n");
+        System.out.print("Introdueix la quantitat de productes a AFEGIR: ");
+        N = sc.nextInt();
+      }
       sc.nextLine();
       id = new String[N];
       sims = new Double[N][N];
@@ -127,6 +162,7 @@ public class DriverCtrl_Algoritme
           input.put(id[i], llistaSim);
       }
     }
+    else System.out.println("Error: Mètode invàlid.\n");
     return input;
   }
 
@@ -139,6 +175,7 @@ public class DriverCtrl_Algoritme
     {
         //Inicialitzacio del Driver
         init_ctrl();
+        if (num_opts == 0) return;
         System.out.println("Driver de testeig del CONTROLADOR DE ALGORITME!\n");
 
         int opcio;

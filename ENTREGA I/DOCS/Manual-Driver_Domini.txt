@@ -1,0 +1,31 @@
+-- Manual pel DRIVER de DOMINI --
+
+1- EXECUCIÓ
+Per execucar-lo, ves al directori "subgrup-prop41.5/ENTREGA\ I/FONTS" i escriu la següent comanda: 
+
+	$> java -cp ../EXE/CLASS drivers.DriverCtrl_Domini
+	
+Si desitges fer reset de tots els executables caldrà fer (al mateix directori):
+	
+	$> make clean
+	$> make
+
+2- FUNCIONAMENT
+Es mostraran diverses funcionalitats del driver:
+
+  1- Afegir producte: Es precisarà que s'indiquin el número de productes a afegir i, de forma iterativa fins a num_productes, anar afegint tantes   
+  similituds com productes hagis afegit en total DURANT el transcurs d'execució del driver (a no ser que s'hagin eliminat tots els productes).
+  
+     *NOTA: les similituds van del 0 a l'1, qualsevol altre valor serà descartat i no s'afegirà res.
+
+  Si decideixes utilitzar un joc de proves (un fitxer emmagatzemat a drivers/recursos), hauràs de triar quina quantitat de productes/nodes voldràs. 
+  No podràs tornar a afegir un producte mitjançant un fitxer, HAURÀ DE SER DE FORMA MANUAL. Tot inloent-hi es clar totes les similituds com s'ha especificat anteriorment.
+  
+  
+  2- Eliminar producte: Es precisarà que s'indiqui l'ID del producte a eliminar. En cas de usar fitxer, si el producte no existeix simplement saltarà un ERROR.
+  Si decideixes utilitzar un joc de proves (un fitxer emmagatzemat a drivers/recursos), hauràs de triar quina quantitat de productes/nodes voldràs. 
+  
+  3- Modificar grau similitud: es precisarà que s'indiquin les dues ID dels productes a modificar junt amb la NOVA similitud que es vol.
+  Si decideixes utilitzar un joc de proves (un fitxer emmagatzemat a drivers/recursos), hauràs de triar quina quantitat de productes/nodes voldràs. 
+  
+  *NOTA: les similituds van del 0 a l'1, qualsevol altre valor serà descartat i no es modificarà res.

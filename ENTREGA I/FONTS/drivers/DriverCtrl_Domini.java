@@ -121,9 +121,22 @@ public class DriverCtrl_Domini
 
     private static void afegirProducte() 
     {
-        System.out.print("Afegir els productes a mà (1) o des d'un fitxer (2)? ");
-        int metodeEntrada = sc.nextInt();
-        sc.nextLine();
+        int metodeEntrada = 0;
+        boolean validM = false;
+        while (!validM)
+        {
+            System.out.print("Afegir els productes a mà (1) o des d'un fitxer (2)? ");
+            if (sc.hasNextInt())
+            {
+                metodeEntrada = sc.nextInt();
+                validM = true;
+            }
+            else
+            {
+                System.out.println("Error: No has introduït un enter.");
+                sc.next();
+            }
+        }
 
         int N;
         String[] id;
@@ -147,7 +160,7 @@ public class DriverCtrl_Domini
                 File fitxer = new File("");
                 try {
                     fitxer = new File(filepath);
-                    if (!fitxer.exists()) throw new Exception("El fitxer no existeix");   
+                    if (!fitxer.exists()) throw new Exception("El fitxer no existeix.\n");   
                 } catch (Exception e) {
                     System.out.println("Error: "+e.getMessage());
                 }
@@ -169,43 +182,75 @@ public class DriverCtrl_Domini
                 }
             }
         } 
-        else 
+        else if (metodeEntrada == 1)
         {
-            System.out.print("Introdueix la quantitat de productes a AFEGIR: ");
-            N = sc.nextInt();
-            sc.nextLine();
-            id = new String[N];
-            sims = new Double[N][N+s];
-            for (int i = 0; i < N; ++i) {
-                System.out.print("Introdueix el ID del producte: " + (i + 1) + "\n");
-                id[i] = sc.nextLine().trim();
-                System.out.print("Introdueix les similituds per al producte " + id[i] + " (separades per espai): ");
-                String[] simArray = sc.nextLine().split(" ");
-                if (simArray.length != s+N)
+            boolean valid = false;
+            N = 0;
+            while (!valid)
+            {
+                System.out.print("Introdueix la quantitat de productes a AFEGIR: ");
+                if (sc.hasNextInt())
                 {
-                    System.out.println("Error: Falten o sobren similituds per al producte: "+id[i]);
-                    System.out.print("\n");
-                    return;
+                    N = sc.nextInt();
+                    valid = true;
                 }
-                for (int j = 0; j < simArray.length; j++) {
-                    sims[i][j] = Double.parseDouble(simArray[j]);
+                else
+                {
+                    System.out.println("Error: No has introduït un enter.");
+                    sc.next();
                 }
             }
-            try {
-                s = dom_ctrl.afegirProducte(id, sims, N);
-                System.out.println("\nSUCCESS: Producte creat.\n");
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
+            if (N > 0)
+            {
+                sc.nextLine();
+                id = new String[N];
+                sims = new Double[N][N+s];
+                for (int i = 0; i < N; ++i) {
+                    System.out.print("Introdueix el ID del producte: " + (i + 1) + "\n");
+                    id[i] = sc.nextLine().trim();
+                    System.out.print("Introdueix les similituds per al producte " + id[i] + " (separades per espai): ");
+                    String[] simArray = sc.nextLine().split(" ");
+                    if (simArray.length != s+N)
+                    {
+                        System.out.println("Error: Falten o sobren similituds per al producte: "+id[i]);
+                        System.out.print("\n");
+                        return;
+                    }
+                    for (int j = 0; j < simArray.length; j++) {
+                        sims[i][j] = Double.parseDouble(simArray[j]);
+                    }
+                }
+                try {
+                    s = dom_ctrl.afegirProducte(id, sims, N);
+                    System.out.println("\nSUCCESS: Producte(s) creat(s).\n");
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
             }
+            else System.out.println("Error: S'han de indicar 1 o més productes.\n");
         }
+        else System.out.println("Error: Mètode no vàlid.\n");
     }
 
     private static void eliminarProducte() 
     {
-        System.out.print("Eliminar producte a mà (1) o des d'un fitxer (2)? ");
-        int metodeEntrada = sc.nextInt();
+        int metodeEntrada = 0;
+        boolean validM = false;
+        while (!validM)
+        {
+            System.out.print("Eliminar el producte a mà (1) o des d'un fitxer (2)? ");
+            if (sc.hasNextInt())
+            {
+                metodeEntrada = sc.nextInt();
+                validM = true;
+            }
+            else
+            {
+                System.out.println("Error: No has introduït un enter.");
+                sc.next();
+            }
+        }
         sc.nextLine();
-
         if (metodeEntrada == 2) 
         {
             System.out.print("Tria els nodes escollits anteriorment -> {1,3,5,8,11}: ");
@@ -220,39 +265,53 @@ public class DriverCtrl_Domini
             File fitxer = new File("");
             try {
                 fitxer = new File(filepath);
-                if (!fitxer.exists()) throw new Exception("El fitxer no existeix");   
+                if (!fitxer.exists()) throw new Exception("El fitxer no existeix.\n");   
             } catch (Exception e) {
                 System.out.println("Error: "+e.getMessage());
             }
             try (Scanner fileScanner = new Scanner(fitxer)) {
                 while (fileScanner.hasNextLine()) {
                     String id = fileScanner.nextLine().trim();
-                    dom_ctrl.eliminarProducte(id);
+                    s = dom_ctrl.eliminarProducte(id);
                 }
                 System.out.println("\nSUCCESS: Producte eliminat.\n");
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
             }
         } 
-        else 
+        else if (metodeEntrada == 1)
         {
             System.out.print("Introdueix l'ID del producte a eliminar: ");
             String id = sc.nextLine();
             try {
-                dom_ctrl.eliminarProducte(id);
+                s = dom_ctrl.eliminarProducte(id);
                 System.out.println("\nSUCCESS: Producte eliminat.\n");
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
             }
         }
+        else System.out.println("Error: Mètode no vàlid.\n");
     }
 
     private static void modificarGrauSimilitud() 
     {
-        System.out.print("Modificar grau similitud a mà (1) o des d'un fitxer (2)? ");
-        int metodeEntrada = sc.nextInt();
+        int metodeEntrada = 0;
+        boolean validM = false;
+        while (!validM)
+        {
+            System.out.print("Modificar els productes a mà (1) o des d'un fitxer (2)? ");
+            if (sc.hasNextInt())
+            {
+                metodeEntrada = sc.nextInt();
+                validM = true;
+            }
+            else
+            {
+                System.out.println("Error: No has introduït un enter.");
+                sc.next();
+            }
+        }  
         sc.nextLine();
-
         if (metodeEntrada == 2)
         {
             System.out.print("Tria els nodes escollits anteriorment -> {1,3,5,8,11}: ");
@@ -267,7 +326,7 @@ public class DriverCtrl_Domini
             File fitxer = new File("");
             try {
                 fitxer = new File(filepath);
-                if (!fitxer.exists()) throw new Exception("El fitxer no existeix");   
+                if (!fitxer.exists()) throw new Exception("El fitxer no existeix.\n");   
             } catch (Exception e) {
                 System.out.println("Error: "+e.getMessage());
             }
@@ -283,7 +342,7 @@ public class DriverCtrl_Domini
                 System.out.println("Error: " + e.getMessage());
             }
         } 
-        else 
+        else if (metodeEntrada == 1)
         {
             System.out.print("Introdueix l'ID del primer producte: ");
             String prodA = sc.nextLine();
@@ -298,5 +357,6 @@ public class DriverCtrl_Domini
                 System.out.println("Error: " + e.getMessage());
             }
         }
+        else System.out.println("Error: Mètode no vàlid.\n");
     }
 }

@@ -88,11 +88,11 @@ public class Producte {
      */
     public int modificarGrauSimilP(int posicio, double sim) {
         if (this.similituds.size() <= posicio) return -1;
-        if (sim < 1.0 && sim > 0.0) {
+        if (sim < 1.0 && sim > 0.0) 
+        {
             similituds.set(posicio,sim);
             return 1;
         }
-        System.out.println("\nLa similitud no és correcte.\n");
         return -1;
     }
 
