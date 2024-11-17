@@ -2,20 +2,20 @@ package classes;
 
 import java.util.*;
 
+/**
+ * Representa l'algorisme que busca la distribució òptima a partir de l'algorisme de Kruskal.
+ * 
+ * El resultat ha de ser un arbre d'expansió connex sense resultats, en el qual la 
+ *      suma de les similituds de les arestes que el formen, ha de ser màxim.
+ */
 public class DistribucioKruskal {
-
-    /*
-     * Algorisme que busca la distribució òptima a partir de l'algorisme de Kruskal
-      El resultat ha de ser un arbre d'expansió connex sense resultats, en el qual la 
-     * suma de les similituds de les arestes que el formen, ha de ser màxim
-    */
 
     static Map<String, double[]> Mapa; 
     static List<Aresta> Arestes; 
     static List<String> LlistaProductes; 
 
     /* 
-     * Funció per a crear una instancia de l'algorisme
+     * Constructor de la classe DistribucioKruskal.
     */
     public DistribucioKruskal() {
         Mapa = new LinkedHashMap<>();
@@ -24,8 +24,9 @@ public class DistribucioKruskal {
     }
 
     /**
-     * Métode per configurar el mapaCis
-     * @param mapaCis Mapa que conte cada producte y el seu vector de similituds
+     * Métode per configurar el mapaCis (la cistella) y preparar la llista de productes.
+     * 
+     * @param mapaCis Mapa que conté cada producte y el seu vector de similituds.
      */
     public void configurarMapa(Map<String, ArrayList<Double>> mapaCis)
     {
@@ -39,8 +40,52 @@ public class DistribucioKruskal {
         construirArestes();
     }
 
+
     /**
-    * Classe que representa una aresta entre dos productes amb una similitud
+     * Retorna la cistella de productes (Mapa).
+     */
+    public static Map<String, double[]> getMapa() {
+        return Mapa;
+    }
+
+    /**
+     * Retorna la llista d'arestes (Arestes).
+     */
+    public static List<Aresta> getArestes() {
+        return Arestes;
+    }
+
+    /**
+     * Retorna la llista de productes (LlistaProductes).
+     */
+    public static List<String> getLlistaProductes() {
+        return LlistaProductes;
+    }
+
+    /**
+     * Funció per inicialitzar la variable Mapa (pels tests).
+     */
+    public static void setMapa(Map<String, double[]> map) {
+        Mapa = map;
+    }
+
+    /**
+     * Funció per inicialitzar la variable LlistaProductes (pels tests).
+     */
+    public static void setLlistaProductes(List<String> llistaP) {
+        LlistaProductes = llistaP;
+    }
+
+    /**
+     * Funció per inicialitzar la variable Arestes (pels tests).
+     */
+    public static void setArestes(List<Aresta> arests) {
+        Arestes = arests;
+    }
+
+
+    /**
+    * Classe que representa una aresta entre dos productes amb una similitud.
     */ 
     public static class Aresta implements Comparable<Aresta> {
         
@@ -64,7 +109,7 @@ public class DistribucioKruskal {
         @Override
 
         /**
-         * Funció que ens serveix per a ordenar les arestes de major a menor similitut.
+         * Funció que ens serveix per a ordenar les arestes de major a menor similitud.
          * 
          * @param other Segona aresta amb la que comparem.
          */
@@ -93,9 +138,9 @@ public class DistribucioKruskal {
     }
 
     /**
-     * Funció que troba el pare del grup al que perteneix node.
+     * Funció que troba el pare del grup al que perteneix el node.
      * 
-     * @param pare 
+     * @param pare Mapa on es busca el node pare.
      * @param node Producte.
     */
     public static String find(Map<String, String> pare, String node) {
@@ -106,14 +151,17 @@ public class DistribucioKruskal {
         return pare.get(node);
     }
 
-    // Generar el MST utilitzant l'Algorisme de Kruskal
+    /**
+     * Funció que genera el MST utilitzant l'algorisme de Kruskal.
+     * 
+     * @return List<Aresta> (llista de les arestes).
+     */
     public static List<Aresta> construirMST() {
         List<Aresta> mst = new ArrayList<>();
-        
+
         if (LlistaProductes.size() < 2) {
             throw new IllegalArgumentException("No es pot formar un MST amb menys de dos vèrtexs.\n");
         }
-        
         Map<String, String> pare = new HashMap<>(); //Mapa per emmagatzemar el grup "pare" de l'element
         //producte --> pare
 
@@ -138,10 +186,10 @@ public class DistribucioKruskal {
 
 
     /**
-     * Generem un cicle eulerià duplicant les arestes
-     * Un cicle eulerià és un recorregut en un graf que passa exactament un cop per cada aresta
+     * Generem un cicle eulerià duplicant les arestes.
+     * Un cicle eulerià és un recorregut en un graf que passa exactament un cop per cada aresta.
      * 
-     * @param mst Minimum Spanning Tree generat per Kruskal
+     * @param mst List<String> (Minimum Spanning Tree generat per Kruskal).
      */
     public static List<String> generaCicleEuleria(List<Aresta> mst) {
         Map<String, List<String>> connexions = new HashMap<>();
@@ -190,16 +238,31 @@ public class DistribucioKruskal {
         return cicle;
     }
 
-    /*
-     * Convertir el ciclo Eulerià en un cicle Hamiltonià
-    */
+    /**
+     * Funció per generar la solució òptima del prestatge, executa l'algorisme de Kruskal.
+     * Per fer-ho converteix el cicle Eulerià en un cicle Hamiltonià.
+     * 
+     * @return Un ArrayList<String> amb l'ordre de productes que maximitza la similitud total.
+     */
     public static ArrayList<String> generarPrestatge() {
+
+        ArrayList<String> resultat = new ArrayList<>();
+        //verifica si no hi ha cap producte
+        if (LlistaProductes.isEmpty()) {
+            return resultat; //Retorna una llista buida si no hi ha productes
+        } 
+
+        //si només hi ha un producte, l'afegim al resultat
+        else if (LlistaProductes.size() == 1) {
+            resultat.add(LlistaProductes.get(0));
+            return resultat;
+        }
+
         List<Aresta> mst = construirMST(); // Construir el MST
         List<String> cicloEuleriano = generaCicleEuleria(mst); // Generar cicle Euleria
         Set<String> visitados = new HashSet<>(); // Set de visitats
-        ArrayList<String> resultat = new ArrayList<>();
 
-        if(cicloEuleriano.isEmpty()) return resultat; 
+        //if(cicloEuleriano.isEmpty()) return resultat; 
 
         // Inicialitzem el primer producto agafant el primer del cicle Euleria
         String anterior = cicloEuleriano.get(0);
@@ -232,5 +295,3 @@ public class DistribucioKruskal {
         return resultat; 
     }           
 }
-
-    

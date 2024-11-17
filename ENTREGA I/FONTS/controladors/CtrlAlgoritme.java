@@ -44,10 +44,10 @@ public class CtrlAlgoritme
         DistribucioKruskal distribucioKruskal = new DistribucioKruskal();
         distribucioKruskal.configurarMapa(mapaCis);
         System.out.println("\nConstruint el MST amb l'algorisme de KRUSKAL...");
-        List<DistribucioKruskal.Aresta> mst = DistribucioKruskal.construirMST();
+        //List<DistribucioKruskal.Aresta> mst = DistribucioKruskal.construirMST();
 
         System.out.println("\nGenerant el cicle euleria a partir del MST...");
-        List<String> cicleEuleria = DistribucioKruskal.generaCicleEuleria(mst);
+        //List<String> cicleEuleria = DistribucioKruskal.generaCicleEuleria(mst);
 
         System.out.println("\nConvertint el cicle euleria en un cicle hamiltonia...");
         ArrayList<String> prestatgeFinal = DistribucioKruskal.generarPrestatge();

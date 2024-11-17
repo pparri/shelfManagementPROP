@@ -4,9 +4,9 @@ DIR_CONTROLADOR = controladors
 
 DIR_CLASSES_TEST = tests
 
-JUNIT_JARS = ./lib/hamcrest-core-1.3.jar:./lib/junit-4.12.jar
+JUNIT_JARS = ./lib/hamcrest-core-1.3.jar:./lib/junit-4.13.2.jar
 
-LIBS = ./lib/junit-4.12.jar:./lib/hamcrest-core-1.3.jar
+LIBS = ./lib/junit-4.13.2.jar:./lib/hamcrest-core-1.3.jar
 
 CLASS_INPUT = $(DIR_CLASSES)/*java \
 				$(DIR_CONTROLADOR)/*java 

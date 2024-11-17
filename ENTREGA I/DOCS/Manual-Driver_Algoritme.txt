@@ -1,0 +1,45 @@
+-- Manual pel DRIVER de AlGORITME --
+
+1- EXECUCIÓ
+Per executar-lo, ves al directori "subgrup-prop41.5/ENTREGA\ I/FONTS" i escriu la següent comanda: 
+
+	$> java -cp ../EXE/CLASS drivers.DriverCtrl_Algoritme
+    *NOTA: No es vàlid passar un input amb el símbol <
+	
+Si desitges fer reset de tots els executables caldrà fer (al mateix directori):
+	
+	$> make clean
+	$> make
+
+2- INPUT INICIAL
+El input inicial es podrà fer a mà (1) o amb un fitxer (2)
+Es precisarà que s'indiquin el número de productes a afegir i, de forma iterativa fins a num_productes, anar afegint la ID del producte i tantes   
+similituds com productes hagis afegit en total.
+
+    Esquema del input:
+    2
+    patates
+    1.0 0.5
+    cocacola
+    0.5 1.0
+
+    *NOTA: les similituds van del 0 a l'1, qualsevol altre valor serà descartat i no s'afegirà res.
+    *NOTA: les similituds que relacionen als productes entre ells (p.e -> 0.5) han de ser iguals, si no el input seria insigificant.
+    *NOTA: un producte té una similitud de 1 amb ell mateix.
+
+3- FUNCIONAMENT
+Es mostraran diverses funcionalitats del driver:
+
+  1- Genera el Prestatge en funció de l'algoritme de Força Bruta.
+
+      *NOTA: una gran quantitat de productes provoca una execució lenta (11 productes -> 18.0s)
+
+  2- Genera el Prestatge en funció de l'algoritme de 2-A.
+
+  3- Executa l'algoritme DFS i imprimeix el resultat.
+
+  4- Executa l'algoritme Kruskal i imprimeix el resultat.
+
+  5- Consulta el Prestatge actual. Si no s'ha generat cap anteriorment, apareixerà buit.
+
+  6- Surt del driver.

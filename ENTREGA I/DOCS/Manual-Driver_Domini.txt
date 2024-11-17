@@ -1,31 +1,68 @@
 -- Manual pel DRIVER de DOMINI --
 
 1- EXECUCIÓ
-Per execucar-lo, ves al directori "subgrup-prop41.5/ENTREGA\ I/FONTS" i escriu la següent comanda: 
+Per executar-lo, ves al directori "subgrup-prop41.5/ENTREGA\ I/FONTS" i escriu la següent comanda: 
 
 	$> java -cp ../EXE/CLASS drivers.DriverCtrl_Domini
+    *NOTA: No es vàlid passar un input amb el símbol <
 	
 Si desitges fer reset de tots els executables caldrà fer (al mateix directori):
 	
 	$> make clean
 	$> make
 
+
 2- FUNCIONAMENT
 Es mostraran diverses funcionalitats del driver:
 
-  1- Afegir producte: Es precisarà que s'indiquin el número de productes a afegir i, de forma iterativa fins a num_productes, anar afegint tantes   
+  1- Afegir producte: Es precisarà que s'indiquin el número de productes a afegir i, de forma iterativa fins a num_productes, anar afegint la ID del producte i tantes   
   similituds com productes hagis afegit en total DURANT el transcurs d'execució del driver (a no ser que s'hagin eliminat tots els productes).
   
+      Esquema del input:
+      2
+      patates
+      1.0 0.5
+      cocacola
+      0.5 1.0
+
      *NOTA: les similituds van del 0 a l'1, qualsevol altre valor serà descartat i no s'afegirà res.
+     *NOTA: les similituds que relacionen als productes entre ells (p.e -> 0.5) han de ser iguals, si no el input seria insigificant.
+     *NOTA: un producte té una similitud de 1 amb ell mateix.
 
   Si decideixes utilitzar un joc de proves (un fitxer emmagatzemat a drivers/recursos), hauràs de triar quina quantitat de productes/nodes voldràs. 
   No podràs tornar a afegir un producte mitjançant un fitxer, HAURÀ DE SER DE FORMA MANUAL. Tot inloent-hi es clar totes les similituds com s'ha especificat anteriorment.
   
   
   2- Eliminar producte: Es precisarà que s'indiqui l'ID del producte a eliminar. En cas de usar fitxer, si el producte no existeix simplement saltarà un ERROR.
-  Si decideixes utilitzar un joc de proves (un fitxer emmagatzemat a drivers/recursos), hauràs de triar quina quantitat de productes/nodes voldràs. 
   
+      Esquema del input:
+      patates
+
+      *NOTA: si el produte no existeix, no s'efectuarà cap canvi.
+      *NOTA: si una similitud és incorrecte, no s'efectuarà cap canvi.
+
   3- Modificar grau similitud: es precisarà que s'indiquin les dues ID dels productes a modificar junt amb la NOVA similitud que es vol.
-  Si decideixes utilitzar un joc de proves (un fitxer emmagatzemat a drivers/recursos), hauràs de triar quina quantitat de productes/nodes voldràs. 
-  
-  *NOTA: les similituds van del 0 a l'1, qualsevol altre valor serà descartat i no es modificarà res.
+
+      Esquema del input:
+      patates
+      pizza
+      0.6
+
+      *NOTA: un produte no existeix, no s'efectuarà cap canvi.
+      *NOTA: les similituds van del 0 a l'1, qualsevol altre valor serà descartat i no es modificarà res.
+
+  4- Genera el Prestatge en funció de l'algoritme de Força Bruta.
+
+      *NOTA: una gran quantitat de productes provoca una execució lenta (11 productes -> 18.0s)
+
+  5- Genera el Prestatge en funció de l'algoritme de 2-A.
+
+  6- Executa l'algoritme DFS i imprimeix el resultat.
+
+  7- Executa l'algoritme Kruskal i imprimeix el resultat.
+
+  8- Consulta el Prestatge actual. Si no s'ha generat cap anteriorment, apareixerà buit.
+
+  9- Consulta la cistella actual. Si no s'ha afegit cap producte anteriorment, apareixerà buida.
+
+  10- Surt del driver.
