@@ -12,8 +12,7 @@ import java.util.List;
 
 public class CtrlAlgoritme
 {
-    private static CtrlAlgoritme instancia;
-
+   private static CtrlAlgoritme instancia;
    private static Map<String, ArrayList<Double>> mapaCis;
    private ArrayList<String> prestatge;
    List<DistribucioKruskal.Aresta> mst = new ArrayList<>();

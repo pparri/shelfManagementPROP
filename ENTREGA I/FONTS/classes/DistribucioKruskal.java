@@ -24,9 +24,8 @@ public class DistribucioKruskal {
     }
 
     /**
-     * Métode per configurar la cistella de productes (el mapaCis).
-     * 
-     * @param mapaCis Mapa que conté cada producte i el seu vector de similituds.
+     * Métode per configurar el mapaCis
+     * @param mapaCis Mapa que conte cada producte y el seu vector de similituds
      */
     public void configurarMapa(Map<String, ArrayList<Double>> mapaCis)
     {
@@ -37,54 +36,8 @@ public class DistribucioKruskal {
             Mapa.put(producte, similitudesArray);
             LlistaProductes.add(producte);
         }
-
         construirArestes();
-
-      
     }
-
-    /**
-     * Retorna la cistella de productes (Mapa).
-     */
-    public static Map<String, double[]> getMapa() {
-        return Mapa;
-    }
-
-    /**
-     * Retorna la llista d'arestes (Arestes).
-     */
-    public static List<Aresta> getArestes() {
-        return Arestes;
-    }
-
-    /**
-     * Retorna la llista de productes (LlistaProductes).
-     */
-    public static List<String> getLlistaProductes() {
-        return LlistaProductes;
-    }
-
-    /**
-     * Funció per inicialitzar la variable Mapa (pels tests).
-     */
-    public static void setMapa(Map<String, double[]> map) {
-        Mapa = map;
-    }
-
-    /**
-     * Funció per inicialitzar la variable LlistaProductes (pels tests).
-     */
-    public static void setLlistaProductes(List<String> llistaP) {
-        LlistaProductes = llistaP;
-    }
-
-    /**
-     * Funció per inicialitzar la variable Arestes (pels tests).
-     */
-    public static void setArestes(List<Aresta> arests) {
-        Arestes = arests;
-    }
-
 
     /**
     * Classe que representa una aresta entre dos productes amb una similitud
@@ -156,6 +109,11 @@ public class DistribucioKruskal {
     // Generar el MST utilitzant l'Algorisme de Kruskal
     public static List<Aresta> construirMST() {
         List<Aresta> mst = new ArrayList<>();
+        
+        if (LlistaProductes.size() < 2) {
+            throw new IllegalArgumentException("No es pot formar un MST amb menys de dos vèrtexs.\n");
+        }
+        
         Map<String, String> pare = new HashMap<>(); //Mapa per emmagatzemar el grup "pare" de l'element
         //producte --> pare
 
@@ -194,6 +152,26 @@ public class DistribucioKruskal {
             connexions.get(aresta.producte2).add(aresta.producte1);
         }
 
+        //Identifiquem els productes amb un grau imparell 
+        List<String> vertexImparells = new ArrayList<>();
+        for (Map.Entry<String, List<String>> prod : connexions.entrySet()) {
+            if (prod.getValue().size() % 2 != 0) {
+                vertexImparells.add(prod.getKey());
+            }
+        }
+
+        // Afegim els vertexs imparells a la matriu de connexions
+        for (int i = 0; i < vertexImparells.size(); i += 2) {
+            String v1 = vertexImparells.get(i);
+            String v2 = vertexImparells.get(i + 1);
+            connexions.get(v1).add(v2);
+            connexions.get(v2).add(v1);   //conectem entre si els vertexs
+        }
+
+        for (List<String> neighbors : connexions.values()) {   //ordenem les connexions per ordre alfabètic
+            Collections.sort(neighbors);
+        }
+
         List<String> cicle = new ArrayList<>();
         Stack<String> stack = new Stack<>();
         stack.push(mst.get(0).producte1);
@@ -216,11 +194,12 @@ public class DistribucioKruskal {
      * Convertir el ciclo Eulerià en un cicle Hamiltonià
     */
     public static ArrayList<String> generarPrestatge() {
-        double suma = 0;
         List<Aresta> mst = construirMST(); // Construir el MST
         List<String> cicloEuleriano = generaCicleEuleria(mst); // Generar cicle Euleria
         Set<String> visitados = new HashSet<>(); // Set de visitats
         ArrayList<String> resultat = new ArrayList<>();
+
+        if(cicloEuleriano.isEmpty()) return resultat; 
 
         // Inicialitzem el primer producto agafant el primer del cicle Euleria
         String anterior = cicloEuleriano.get(0);
@@ -248,7 +227,6 @@ public class DistribucioKruskal {
                 resultat.add(mejorSiguiente);
                 visitados.add(mejorSiguiente);
                 anterior = mejorSiguiente;     //actualitzem anterior
-                suma += maxSimilitud;
             }
         }
         return resultat; 

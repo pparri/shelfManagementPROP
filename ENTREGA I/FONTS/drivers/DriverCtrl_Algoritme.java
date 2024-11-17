@@ -110,7 +110,8 @@ public class DriverCtrl_Algoritme
           String[] simArray = sc.nextLine().split(" ");
           
           if (simArray.length != N) {
-              System.out.println("Error: Número incorrecte de similituds per al producte " + id[i]);
+              System.out.println("Error: Falten o sobren similituds per al producte:" + id[i]);
+              System.out.print("\n");
               return input; 
           }
       
@@ -138,18 +139,20 @@ public class DriverCtrl_Algoritme
     {
         //Inicialitzacio del Driver
         init_ctrl();
-
         System.out.println("Driver de testeig del CONTROLADOR DE ALGORITME!\n");
 
-        int opcio = -1;
-        int s = 0;
-        mostrarVista();
-        System.out.println("Tria una opció: ");
-        opcio = sc.nextInt();
-        sc.nextLine();
-        if (opcio < 1 || opcio > num_opts) System.out.println("Opció no vàlida!!\n");
-        while (opcio > 0 && opcio <= num_opts)
+        int opcio;
+        while (true) 
         {
+            mostrarVista();
+            System.out.print("Tria una opció: ");
+            opcio = sc.nextInt();
+            sc.nextLine();
+
+            if (opcio < 1 || opcio > num_opts) {
+                System.out.println("Opció no vàlida!!\n");
+                continue;
+            }
             switch(opcio)
             {
               case 1:
@@ -158,8 +161,8 @@ public class DriverCtrl_Algoritme
                     System.out.println("\nSUCCESS: Prestatge creat.\n");
                   } catch (Exception e){
                     System.out.println("Error: "+e.getMessage());
-                }
-                break;
+                  }
+                  break;
               case 2:
                 try {
                   prestatge = alg_ctrl.executarDosAprox();
@@ -190,18 +193,13 @@ public class DriverCtrl_Algoritme
                 consultarPrestatge();
               } catch (Exception e){
                 System.out.println("Error: "+e.getMessage());
-            }
-            break;
+              }
+              break;
               
               case 6:
-              System.out.print("Moltes gràcies per provar el DRIVER!\n");
+              System.out.print("Moltes gràcies per provar el DRIVER de ALGORITME!\n");
               return;
             }
-
-            mostrarVista();
-            opcio = sc.nextInt();
-            sc.nextLine();
-            if (opcio < 1 || opcio > num_opts) System.out.println("Opció no vàlida!!\n");
         }
 
       }
@@ -224,7 +222,7 @@ public class DriverCtrl_Algoritme
           System.out.print("‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
           System.out.print("\n");
         }
-        else System.out.println("Primer genera un prestatge.\n");
+        else System.out.println("\nError: Primer genera un prestatge.\n");
 	  }
 
      /**

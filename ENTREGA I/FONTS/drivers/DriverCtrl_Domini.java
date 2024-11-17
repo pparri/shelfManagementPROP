@@ -11,6 +11,7 @@ public class DriverCtrl_Domini
     protected static Scanner sc = null;
     public static int num_opts = 10;
     private static int s = 0;
+    private static int d = 0;
 
     private static void init_ctrl()
     {
@@ -112,7 +113,7 @@ public class DriverCtrl_Domini
                     }
                     break;
                 case 10:
-                    System.out.print("Moltes gràcies per provar el DRIVER!\n");
+                    System.out.print("Moltes gràcies per provar el DRIVER de DOMINI!\n");
                     return;
             }
         }
@@ -129,36 +130,43 @@ public class DriverCtrl_Domini
         Double[][] sims;
 
         if (metodeEntrada == 2) {
-            System.out.print("Tria la quantitat de nodes que vols -> {1,3,5,8,11}: ");
-            String filepath = " ";
-            int c = sc.nextInt();
-            sc.nextLine();
-            if (c == 1) filepath = "drivers/recursos/afegirProductes1nodos.txt";
-            else if (c == 3) filepath = "drivers/recursos/afegirProductes3nodos.txt";
-            else if (c == 5) filepath = "drivers/recursos/afegirProductes5nodos.txt";
-            else if (c == 8) filepath = "drivers/recursos/afegirProductes8nodos.txt";
-            else if (c == 11) filepath = "drivers/recursos/afegirProductes11nodos.txt";
-            File fitxer = new File("");
-            try {
-                fitxer = new File(filepath);
-                if (!fitxer.exists()) throw new Exception("El fitxer no existeix");   
-            } catch (Exception e) {
-                System.out.println("Error: "+e.getMessage());
+            if (d == 1) {
+                System.out.println("Error: fitxer ja afegit");
             }
-            try (Scanner fileScanner = new Scanner(fitxer)) {
-                id = new String[c];
-                sims = new Double[c][c+s];
-                for (int i = 0; i < c; ++i) {
-                    id[i] = fileScanner.nextLine().trim();
-                    String[] simArray = fileScanner.nextLine().split(" ");
-                    for (int j = 0; j < simArray.length; j++) {
-                        sims[i][j] = Double.parseDouble(simArray[j]);
-                    }
+            else 
+            {
+                System.out.print("Tria la quantitat de nodes que vols -> {1,3,5,8,11}: ");
+                String filepath = " ";
+                int c = sc.nextInt();
+                sc.nextLine();
+                if (c == 1) filepath = "drivers/recursos/afegirProductes1nodos.txt";
+                else if (c == 3) filepath = "drivers/recursos/afegirProductes3nodos.txt";
+                else if (c == 5) filepath = "drivers/recursos/afegirProductes5nodos.txt";
+                else if (c == 8) filepath = "drivers/recursos/afegirProductes8nodos.txt";
+                else if (c == 11) filepath = "drivers/recursos/afegirProductes11nodos.txt";
+                File fitxer = new File("");
+                try {
+                    fitxer = new File(filepath);
+                    if (!fitxer.exists()) throw new Exception("El fitxer no existeix");   
+                } catch (Exception e) {
+                    System.out.println("Error: "+e.getMessage());
                 }
-                s = dom_ctrl.afegirProducte(id, sims, c);
-                System.out.println("\nSUCCESS: Producte creat.\n");
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
+                try (Scanner fileScanner = new Scanner(fitxer)) {
+                    id = new String[c];
+                    sims = new Double[c][c+s];
+                    for (int i = 0; i < c; ++i) {
+                        id[i] = fileScanner.nextLine().trim();
+                        String[] simArray = fileScanner.nextLine().split(" ");
+                        for (int j = 0; j < simArray.length; j++) {
+                            sims[i][j] = Double.parseDouble(simArray[j]);
+                        }
+                    }
+                    s = dom_ctrl.afegirProducte(id, sims, c);
+                    System.out.println("\nSUCCESS: Producte creat.\n");
+                    d = 1;
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
             }
         } 
         else 
@@ -175,7 +183,8 @@ public class DriverCtrl_Domini
                 String[] simArray = sc.nextLine().split(" ");
                 if (simArray.length != s+N)
                 {
-                    System.out.println("Error: Les similituds no son correctes per al producte "+id[i]+" no son correctes.");
+                    System.out.println("Error: Falten o sobren similituds per al producte: "+id[i]);
+                    System.out.print("\n");
                     return;
                 }
                 for (int j = 0; j < simArray.length; j++) {

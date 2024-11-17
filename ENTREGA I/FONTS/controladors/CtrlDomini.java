@@ -73,7 +73,11 @@ public class CtrlDomini
 
             int sum  = N+oldSize;
             if (similitud.length != N+oldSize) {
-                throw new Exception("Les similituds no son correctes per al producte: " + id);
+                throw new Exception("Falten o sobren similituds per al producte: " + id);
+            }
+            for (int j = 0; j < similitud.length; ++j)
+            {
+                if (similitud[j] > 1 || similitud[j] < 0) throw new Exception("Similitud amb valor incorrecte de producte: "+id);
             }
             cistella.add(prod);
             mapaCis.put(id, prod.getSimilituds());
