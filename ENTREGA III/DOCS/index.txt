@@ -1,0 +1,9 @@
+Descripcio del directori:
+    Directori que conte la documentacio del projecte.
+
+Elements del directori:
+    - Manual d'usuari de l'aplicació.
+    - Especificacio de totes les classes del projecte (javadoc).
+    - Reparticio de feina.
+    - Control de canvis dels diagrames de Domini, Presentacio i Persistencia,
+	ja que de la segona entrega a la tercera han canviat una mica.

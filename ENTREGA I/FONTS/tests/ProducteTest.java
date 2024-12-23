@@ -35,7 +35,7 @@ public class ProducteTest {
         Double[] similituds = {-0.8, 1.0, 0.4};
         Producte p = new Producte("producte", similituds);
 
-        assertNull(p.getSimilituds());
+        assertEquals(0, p.getSimilituds().size());
     }
 
     /**
@@ -46,7 +46,7 @@ public class ProducteTest {
         Double[] similituds = {};
         Producte p = new Producte("producte", similituds);
         
-        assertNull(p.getSimilituds());
+        assertEquals(0, p.getSimilituds().size());
     }
 
 

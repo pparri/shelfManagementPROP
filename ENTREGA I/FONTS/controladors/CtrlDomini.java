@@ -128,7 +128,7 @@ public class CtrlDomini
 	}
 
     /**
-     * Executa l'algoritme de Kruskal
+     * Executa l'algorisme de Kruskal.
      *
      * @return ArrayList prestatge ordenat.
      */
@@ -139,7 +139,7 @@ public class CtrlDomini
     }
 
     /**
-     * Executa l'algoritme de Forca Bruta
+     * Executa l'algorisme de Força Bruta.
      */
     public void generarPrestatgeForcaBruta()
     {
@@ -148,7 +148,7 @@ public class CtrlDomini
     }
 
     /**
-     * Executa l'algoritme de Kruskal
+     * Executa l'algorisme de Kruskal.
      */
     public void generarKruskal()
     {
@@ -158,7 +158,7 @@ public class CtrlDomini
     }
 
     /**
-     * Recorregut en DFS que genera un cicle eulerià
+     * Recorregut en DFS que genera un cicle eulerià.
      */
     public void generarEuler()
     {
@@ -168,22 +168,27 @@ public class CtrlDomini
     }
 
     /**
-     * Consulta la CISTELLA
+     * Consulta la CISTELLA.
      */
-    public void consultarCistella()
+    public void consultarCistella() throws Exception
     {
-        System.out.println("\nEl contingut de la Cistella es el següent: ");
-        for (Producte prod : cistella)
+        if (!cistella.isEmpty()) 
         {
-            System.out.println("Nom del Producte: "+prod.getNom());
-            System.out.println("Similituds: "+prod.getSimilituds());
+            System.out.println("\nEl contingut de la Cistella es el següent: ");
+            for (Producte prod : cistella)
+            {
+                System.out.println("Nom del Producte: "+prod.getNom());
+                System.out.println("Similituds: "+prod.getSimilituds());
+            }
+            System.out.println("\n");
         }
-        System.out.println("\n");
+        else throw new Exception("La cistella està buida\n");
     }
 
     /**
-     * Consulta el PRESTATGE
-     * @return Retorna el Prestatge
+     * Consulta el PRESTATGE.
+     * 
+     * @return Retorna un ArrayList<String> (el Prestatge).
      */
     public ArrayList<String> consultarPrestatge()
     {
@@ -191,7 +196,9 @@ public class CtrlDomini
 	}
 
      /**
-     * Consulta el Arbre d'expansió mínima (KRUSKAL)
+     * Consulta el Arbre d'expansió mínima (KRUSKAL).
+     * 
+     * @param mst Arbre d'expansió mínima (KRUSKAL).
      */
     public void mostrarMST(List<DistribucioKruskal.Aresta> mst) 
     {
@@ -203,7 +210,9 @@ public class CtrlDomini
     }
 
     /**
-     * Consulta el Cicle Eulerià generat fent un DFS en base al Kruskal
+     * Consulta el Cicle Eulerià generat fent un DFS en base al Kruskal.
+     * 
+     * @param cicloEuleriano Cicle Eulerià generat fent un DFS en base al Kruskal.
      */
     public void mostrarCicleEuleria(List<String> cicloEuleriano) 
     {

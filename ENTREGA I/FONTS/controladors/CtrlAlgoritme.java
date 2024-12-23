@@ -10,6 +10,12 @@ import java.util.Set;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+/**
+ * Representa el controlador dels algorismes.
+ * 
+ * El controlador dels algorismes té un prestatge i un conjunt de productes.
+ * També proporciona mètodes per gestionar l'execució dels algorismes.
+ */
 public class CtrlAlgoritme
 {
    private static CtrlAlgoritme instancia;
@@ -22,14 +28,14 @@ public class CtrlAlgoritme
      * Constructora per obtenir un objecte de tipus CtrlAlgoritme
      * 
      * @return CtrlAlgoritme
-    */
-   public CtrlAlgoritme(Map<String, ArrayList<Double>>mapacis)
-   {
-       mapaCis = mapacis;
+     */
+    public CtrlAlgoritme(Map<String, ArrayList<Double>>mapacis)
+    {
+        mapaCis = mapacis;
     }
     
     /**
-     * Retorna la instancia del controlador de Algoritme.
+     * Retorna la instancia del controlador de l'Algorisme.
      * 
      * @return CtrlAlgoritme
      */
@@ -39,7 +45,11 @@ public class CtrlAlgoritme
         return instancia;
     }
 
-
+    /**
+     * Executa l'algorisme dos-aproximació per generar la millor solució possible de la distribució dels productes en el prestatge.
+     * 
+     * @return ArrayList<String> (Solució òptima de la distribució del prestatge).
+     */
     public ArrayList<String> executarDosAprox() {
         DistribucioKruskal distribucioKruskal = new DistribucioKruskal();
         distribucioKruskal.configurarMapa(mapaCis);
@@ -54,6 +64,11 @@ public class CtrlAlgoritme
         return prestatgeFinal;
     }
 
+    /**
+     * Executa l'algorisme de Kruskal per generar el MST.
+     * 
+     * @return List<DistribucioKruskal.Aresta> (MST).
+     */
     public List<DistribucioKruskal.Aresta> executarKruskal()
     {
         DistribucioKruskal distribucioKruskal = new DistribucioKruskal();
@@ -62,6 +77,11 @@ public class CtrlAlgoritme
         return mst;
     }
 
+    /**
+     * Executa l'algorisme DFS.
+     * 
+     * @return List<String> (cicle eulerià).
+     */
     public List<String> executarDFS() {
 
         DistribucioKruskal distribucioKruskal = new DistribucioKruskal();
@@ -71,6 +91,11 @@ public class CtrlAlgoritme
         return cicleEuleria;
     }
     
+    /**
+     * Executa l'algorisme de força bruta per generar la millor solució possible de la distribució dels productes en el prestatge.
+     * 
+     * @return ArrayList<String> (Solució òptima de la distribució del prestatge).
+     */
     public ArrayList<String> executarForcaBruta()
     {
         AlgorismeFB algorismeFB = new AlgorismeFB();

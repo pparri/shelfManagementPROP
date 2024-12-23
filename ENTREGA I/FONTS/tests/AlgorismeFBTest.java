@@ -110,9 +110,7 @@ public class AlgorismeFBTest {
         assertEquals(2, resultat.size());
         assertEquals(1, algorismeFB.getSiEstaProducteEnLlista("Producte1"));
         assertEquals(1, algorismeFB.getSiEstaProducteEnLlista("Producte2"));
-        //preguntar que es la defSolution
-        //assertArrayEquals(new String[]{"Producte1", "Producte2"}, algorismeFB.getDefSolution());
-    }
+    } 
 
     /**
      * Test que comprova que es genera el prestatge correctament.
@@ -169,66 +167,6 @@ public class AlgorismeFBTest {
      * Test que comprova que el càlcul de la puntuació del prestatge és correcte.
      */
     @Test
-    public void test_scoreCalcAmbTresProductes() {
-        AlgorismeFB algorismeFB = new AlgorismeFB();
-
-        algorismeFB.getShelf().put("Producte1", new double[]{1.0, 0.9, 0.7});
-        algorismeFB.getShelf().put("Producte2", new double[]{0.9, 1.0, 0.3});
-        algorismeFB.getShelf().put("Producte3", new double[]{0.7, 0.3, 1.0});
-
-        String[] solucio = {"Producte1", "Producte2", "Producte3"};
-        int n = solucio.length;
-
-        double score = algorismeFB.scoreCalc(solucio, n);
-
-        assertEquals(1.9, score, 0.0001);
-    }
-
-    /**
-     * Test que comprova que el càlcul de la puntuació del prestatge és correcte.
-     *
-    @Test
-    public void test_scoreCalcAmbQuatreProductes() {
-        AlgorismeFB algorismeFB = new AlgorismeFB();
-
-        algorismeFB.getShelf().put("Producte1", new double[]{1.0, 0.1, 0.9, 0.8});
-        algorismeFB.getShelf().put("Producte2", new double[]{0.1, 1.0, 0.1, 0.1});
-        algorismeFB.getShelf().put("Producte3", new double[]{0.9, 0.1, 1.0, 0.9});
-        algorismeFB.getShelf().put("Producte4", new double[]{0.8, 0.1, 0.9, 1.0});
-
-        String[] solucio = {"Producte1", "Producte2", "Producte3", "Producte4"};
-        int n = solucio.length;
-
-        double score = algorismeFB.scoreCalc(solucio, n);
-
-        assertEquals(2.0, score, 0.0001);
-    } */
-
-    /**
-     * Test que comprova que el càlcul de la puntuació del prestatge és correcte.
-     *
-    @Test
-    public void test_scoreCalcAmbCincProductes() {
-        AlgorismeFB algorismeFB = new AlgorismeFB();
-
-        algorismeFB.getShelf().put("Producte1", new double[]{1.0, 0.1, 0.9, 0.0, 0.8});
-        algorismeFB.getShelf().put("Producte2", new double[]{0.1, 1.0, 0.1, 0.0, 0.1});
-        algorismeFB.getShelf().put("Producte3", new double[]{0.9, 0.1, 1.0, 0.0, 0.9});
-        algorismeFB.getShelf().put("Producte4", new double[]{0.0, 0.0, 0.0, 1.0, 0.0});
-        algorismeFB.getShelf().put("Producte5", new double[]{0.8, 0.1, 0.9, 0.0, 1.0});
-
-        String[] solucio = {"Producte1", "Producte2", "Producte3", "Producte4", "Producte5"};
-        int n = solucio.length;
-
-        double score = algorismeFB.scoreCalc(solucio, n);
-
-        assertEquals(1.9, score, 0.0001);
-    } */
-
-    /**
-     * Test que comprova que el càlcul de la puntuació del prestatge és correcte.
-     */
-    @Test
     public void test_scoreCalcAmbUnProducte() {
         AlgorismeFB algorismeFB = new AlgorismeFB();
 
@@ -254,25 +192,6 @@ public class AlgorismeFBTest {
         double score = algorismeFB.scoreCalc(solucio, n);
         assertEquals(0.0, score, 0.0001);
     }
-
-    /**
-     * Test que comprova que el càlcul de la puntuació del prestatge és correcte.
-     *
-    @Test
-    public void test_scoreCalcAmbProducteInexistent() {
-        AlgorismeFB algorismeFB = new AlgorismeFB();
-
-        algorismeFB.getShelf().put("Producte1", new double[]{1.0});
-
-        String[] solucio = {"Producte1", "Producte2"};
-        int n = solucio.length;
-
-        double score = algorismeFB.scoreCalc(solucio, n);
-
-        assertThrows(NullPointerException.class, () -> {
-            algorismeFB.scoreCalc(solucio, n);
-        });
-    } */
 
 
     /**

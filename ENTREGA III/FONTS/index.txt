@@ -1,0 +1,17 @@
+Descripcio del directori:
+    Directori que conte les fonts del projecte. Els subdirectoris segueixen l'estructura de packages.
+
+Elements del directori:
+    - src.classes: directori on s'emmagatzemen les classes del projecte
+    - src.controladors: directori on s'emmagatzemen les controladors del projecte
+    - src.driver: directori on s'emmagatzema el driver executable del projecte
+    - src.tests: directori on s'emmagatzemen els tests unitaris del projecte, fets amb JUnit.
+	- en aquesta entrega no es poden executar, son nomes un control de canvis de les 		capçaleres de les funcions de la primera entrega, l'execucio d'aquests es troba en la 		primera entrega.
+    - lib:  directori on s'emmagatzemen les llibreries que utilitza el projecte
+    - src.data.inputs: Jocs de prova de l'aplicacio, diferents inputs per a testejar.
+
+Instruccions per la compilacio (en la carpeta src):
+    - $ make : executa l'aplicacio  
+    - $ make jars : obtenim l'executable
+    - $ make class : obtenim els fitxers .class de les classes del projecte
+    - $ make javadoc : crea el directori javadoc i els tots seus components

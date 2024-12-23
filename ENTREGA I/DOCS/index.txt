@@ -1,0 +1,12 @@
+Descripcio del directori:
+    Directori que conte la documentacio del projecte.
+
+Elements del directori:
+    - Manual del driver Algoritme.
+    - Manual del driver Domini.
+    - Diagrama de cassos d'us.
+    - Especificacio dels cassos d'us.
+    - Documentacio d'estructures de dades i algorismes.
+    - Diagrama del model conceptual.
+    - Especificacio del model conceptual (javadoc).
+    - Reparticio de feina.

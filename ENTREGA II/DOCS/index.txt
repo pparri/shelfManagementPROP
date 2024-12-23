@@ -1,0 +1,9 @@
+Descripcio del directori:
+    Directori que conte la documentacio del projecte.
+
+Elements del directori:
+    - Diagrama de Domini.
+    - Diagrama de Persistencia.
+    - Diagrama de Presentacio..
+    - Documentacio d'estructures de dades i algorismes.
+    - Documentacio de la presentacio de les capes.

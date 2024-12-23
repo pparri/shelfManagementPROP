@@ -43,8 +43,10 @@ class: $(SRC_CLASSES)
 
 test: jars
 	javac -cp $(JUNIT_JARS):$(CLASS_OUTPUT) -d $(CLASS_OUTPUT) $(SRC_CLASSES_TEST)
-	java -cp $(JUNIT_JARS):$(CLASS_OUTPUT) org.junit.runner.JUnitCore test.ProducteTest
-	java -cp $(JUNIT_JARS):$(CLASS_OUTPUT) org.junit.runner.JUnitCore test.PrestatgeTest
+	java -cp $(JUNIT_JARS):$(CLASS_OUTPUT) org.junit.runner.JUnitCore tests.ProducteTest
+	java -cp $(JUNIT_JARS):$(CLASS_OUTPUT) org.junit.runner.JUnitCore tests.PrestatgeTest
+	java -cp $(JUNIT_JARS):$(CLASS_OUTPUT) org.junit.runner.JUnitCore tests.AlgorismeFBTest
+	java -cp $(JUNIT_JARS):$(CLASS_OUTPUT) org.junit.runner.JUnitCore tests.DistribucioKruskalTest
 
 
 javadoc:

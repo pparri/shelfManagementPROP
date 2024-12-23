@@ -1,0 +1,19 @@
+Descripcio del directori:
+    Directori que conte les fonts del projecte. Els subdirectoris segueixen l'estructura de packages.
+
+Elements del directori:
+    - Carpeta classes: conte els .java de les classes.
+    - Carpeta controladors: conte els .java dels controladors.
+    - Carpeta drivers: conte els drivers utilitzats per poder testejar el sistema complet.
+    	- Carpeta recursos: conte els jocs de prova.
+    - Carpeta lib: emmagatzema totes les llibreries necessaries pel projecte.
+    - Carpeta tests: conte tots els tests unitaris, fets amb JUnit.
+
+Instruccions per la compilació:
+    - $ make all o $ make jars : per obtenir els executables .jar depenent directament dels .class + obtenir els fitxers .class dels drivers del proyecte
+    - $ make class : per obtenir els fitxers .class de les classes del projecte
+    - $ make controlador : per obtenir els fitxers .class dels controladors del projecte
+    - $ make domini : per executar el driver del controlador de domini
+    - $ make algoritme : per executar el driver del controlador de l'algorisme
+    - $ make javadoc : per crear el directori javadoc i els seus components
+    - $ make test : per executar tots els tests

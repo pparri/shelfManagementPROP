@@ -1,5 +1,6 @@
 package tests;
 
+import classes.AlgorismeFB;
 import classes.DistribucioKruskal;
 import classes.DistribucioKruskal.Aresta;
 
@@ -271,8 +272,7 @@ public class DistribucioKruskalTest {
         distribucioKruskal.setLlistaProductes(llistaP);
         distribucioKruskal.setArestes(arestes);
 
-        List<Aresta> mst = distribucioKruskal.construirMST();
-        assertEquals(0, mst.size());
+        assertThrows(IllegalArgumentException.class, () -> distribucioKruskal.construirMST());
     } 
 
     /**
@@ -290,8 +290,7 @@ public class DistribucioKruskalTest {
 
         distribucioKruskal.setLlistaProductes(Arrays.asList("Producte1"));
 
-        List<Aresta> mst = distribucioKruskal.construirMST();
-        assertEquals(0, mst.size());
+        assertThrows(IllegalArgumentException.class, () -> distribucioKruskal.construirMST());
     }
 
     /**
@@ -367,7 +366,6 @@ public class DistribucioKruskalTest {
         mapa.put("Producte3", new double[]{0.7, 0.3, 1.0, 0.1});
         mapa.put("Producte4", new double[]{0.2, 0.4, 0.1, 1.0});
 
-
         distribucioKruskal.setMapa(mapa);
         distribucioKruskal.setLlistaProductes(Arrays.asList("Producte1", "Producte2", "Producte3", "Producte4"));
 
@@ -392,15 +390,13 @@ public class DistribucioKruskalTest {
     public void test_generaCicleEuleria1() {
         DistribucioKruskal distribucioKruskal = new DistribucioKruskal();
 
+        distribucioKruskal.setLlistaProductes(Arrays.asList("Producte1", "Producte2"));
+
         List<Aresta> mst = new ArrayList<>();
         mst.add(new DistribucioKruskal.Aresta("Producte1", "Producte2", 0.0));
         mst.add(new DistribucioKruskal.Aresta("Producte2", "Producte1", 0.0));
 
-        List<String> cicle = distribucioKruskal.generaCicleEuleria(mst);
-
-        assertEquals(3, cicle.size());
-        //comprovem que comença i acaba en el mateix node
-        assertEquals(cicle.get(0), cicle.get(cicle.size() - 1));
+        assertThrows(IllegalArgumentException.class, () -> distribucioKruskal.generaCicleEuleria(mst));
     }
 
     /**
@@ -409,6 +405,8 @@ public class DistribucioKruskalTest {
     @Test
     public void test_generaCicleEuleriaAmbVarisProductes() {
         DistribucioKruskal distribucioKruskal = new DistribucioKruskal();
+
+        distribucioKruskal.setLlistaProductes(Arrays.asList("Producte1", "Producte2", "Producte3", "Producte4"));
 
         List<Aresta> mst = new ArrayList<>();
         mst.add(new DistribucioKruskal.Aresta("Producte1", "Producte2", 0.0));
@@ -430,6 +428,8 @@ public class DistribucioKruskalTest {
     public void test_generaCicleEuleriaAmbArestesDuplicades() {
         DistribucioKruskal distribucioKruskal = new DistribucioKruskal();
 
+        distribucioKruskal.setLlistaProductes(Arrays.asList("Producte1", "Producte2", "Producte3"));
+
         List<Aresta> mst = new ArrayList<>();
         mst.add(new DistribucioKruskal.Aresta("Producte1", "Producte2", 0.0));
         mst.add(new DistribucioKruskal.Aresta("Producte2", "Producte3", 0.0));
@@ -449,14 +449,12 @@ public class DistribucioKruskalTest {
     public void test_generaCicleEuleriaSenseCicle() {
         DistribucioKruskal distribucioKruskal = new DistribucioKruskal();
 
+        distribucioKruskal.setLlistaProductes(Arrays.asList("Producte1", "Producte2"));
+
         List<Aresta> mst = new ArrayList<>();
         mst.add(new DistribucioKruskal.Aresta("Producte1", "Producte2", 0.0));
 
-        List<String> cicle = distribucioKruskal.generaCicleEuleria(mst);
-
-        assertEquals(2, cicle.size());
-        //comprovem que comença i acaba en el mateix node
-        assertEquals("Producte1", cicle.get(cicle.size() - 1));
+        assertThrows(IllegalArgumentException.class, () -> distribucioKruskal.generaCicleEuleria(mst));
     }
 
 
@@ -520,5 +518,71 @@ public class DistribucioKruskalTest {
 
         assertEquals(1, prestatge.size());
         assertEquals("Producte1", prestatge.get(0));
+    }
+
+
+    /**
+     * Test que comprova que el càlcul de la puntuació del prestatge és correcte.
+     */
+    @Test
+    public void test_scoreCalcAmbDosProductes() {
+        DistribucioKruskal distribucioKruskal = new DistribucioKruskal();
+
+        ArrayList<String> solucio = new ArrayList<>();
+        solucio.add("Producte1");
+        solucio.add("Producte2");
+
+        distribucioKruskal.setLlistaProductes(Arrays.asList("Producte1", "Producte2"));
+
+        Map<String, double[]> mapa = new LinkedHashMap<>();
+
+        mapa.put("Producte1", new double[]{1.0, 0.9});
+        mapa.put("Producte2", new double[]{0.9, 1.0});
+
+        distribucioKruskal.setMapa(mapa);
+
+        double score = distribucioKruskal.scoreCalc(solucio);
+
+        assertEquals(1.8, score, 0.0001);
+    }
+
+    /**
+     * Test que comprova que el càlcul de la puntuació del prestatge és correcte.
+     */
+    @Test
+    public void test_scoreCalcAmbUnProducte() {
+        DistribucioKruskal distribucioKruskal = new DistribucioKruskal();
+
+        ArrayList<String> solucio = new ArrayList<>();
+        solucio.add("Producte1");
+
+        distribucioKruskal.setLlistaProductes(Arrays.asList("Producte1"));
+
+        Map<String, double[]> mapa = new LinkedHashMap<>();
+        mapa.put("Producte1", new double[]{1.0});
+        distribucioKruskal.setMapa(mapa);
+
+        double score = distribucioKruskal.scoreCalc(solucio);
+
+        assertEquals(1.0, score, 0.0001);
+    }
+
+    /**
+     * Test que comprova que el càlcul de la puntuació del prestatge és correcte.
+     */
+    @Test
+    public void test_scoreCalcBuit() {
+        DistribucioKruskal distribucioKruskal = new DistribucioKruskal();
+
+        ArrayList<String> solucio = new ArrayList<>();
+
+        Map<String, double[]> mapa = new LinkedHashMap<>();
+
+        distribucioKruskal.setMapa(mapa);
+        distribucioKruskal.setLlistaProductes(Arrays.asList());
+
+        double score = distribucioKruskal.scoreCalc(solucio);
+
+        assertEquals(0.0, score, 0.0001);
     }
 }

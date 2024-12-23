@@ -3,6 +3,12 @@ package classes;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Representa l'algorisme de força bruta que genera la millor solució possible per a la distribució del prestatge.
+ * Proporciona mètodes per trobar aquesta solució.
+ * 
+ * Aquest algorisme genera un prestatge, que és el que mostra el sistema.
+ */
 public class AlgorismeFB
 {
     private static Map<String,double[]> Shelf;
@@ -24,9 +30,9 @@ public class AlgorismeFB
     }
 
     /**
-     * Métode per configurar el mapaCis y preparar la llista de productes.
+     * Métode per configurar el mapaCis (la cistella) y preparar la llista de productes.
      *
-     * @param mapaCis Mapa que conte cada producte y el seu vector de similituds
+     * @param mapaCis Mapa que conté cada producte y el seu vector de similituds.
      */
     public void configurarMapa(Map<String, ArrayList<Double>> mapaCis)
     {
@@ -40,9 +46,9 @@ public class AlgorismeFB
     }
 
     /**
-     * Executa l'algoritme de Forca Bruta per trobar la disposició òptima de productes.
+     * Executa l'algoritme de Força Bruta per trobar la disposició òptima de productes.
      *
-     * @return Un ArrayList amb l'ordre de productes que maximiza la similitud total.
+     * @return Un ArrayList<String> amb l'ordre de productes que maximitza la similitud total.
      */
     public ArrayList<String> generarPrestatge()
     {
@@ -57,6 +63,12 @@ public class AlgorismeFB
         return new ArrayList<>(Arrays.asList(defSolution));
     }
 
+    /**
+     * Funció per buscar la posició del producte dins del prestatge.
+     * 
+     * @param product Producte del qual volem buscar la seva posició.
+     * @return Integer.
+     */
     public static int getIndex(String product)
     {
         int index = 0;
@@ -70,6 +82,8 @@ public class AlgorismeFB
 
     /**
      * Retorna el prestatge (Shelf).
+     * 
+     * @return Map<String,double[]>.
      */
     public static Map<String,double[]> getShelf() {
         return Shelf;
@@ -77,6 +91,8 @@ public class AlgorismeFB
 
     /**
      * Retorna la llista de productes del sistema.
+     * 
+     * @return List<String>.
      */
     public List<String> getLlistaProductes() {
         return LlistaProductes;
@@ -84,6 +100,8 @@ public class AlgorismeFB
 
     /**
      * Retorna la defSolution.
+     * 
+     * @return String[].
      */
     public static String[] getDefSolution() {
         return defSolution;
@@ -91,6 +109,8 @@ public class AlgorismeFB
 
     /**
      * Retorna la puntuació màxima (scoreMax).
+     * 
+     * @return double.
      */
     public static double getScoreMax() {
         return scoreMax;
@@ -183,6 +203,8 @@ public class AlgorismeFB
 
     /**
      * Retorna l'iterador.
+     * 
+     * @return Integer.
      */
     public static int getIterador() {
         return iterador;
@@ -190,6 +212,8 @@ public class AlgorismeFB
 
     /**
      * Funció per inicialitzar la variable scoreMax (pels tests).
+     * 
+     * @param score Puntuació a la qual volem inicialitzar la millor puntuació en els tests.
      */
     public static void setScoreMax(double score) {
         scoreMax = score;
@@ -197,6 +221,8 @@ public class AlgorismeFB
 
     /**
      * Funció per inicialitzar la variable iterador (pels tests).
+     * 
+     * @param iter Iterador al qual volem inicialitzar l'iterador en els tests.
      */
     public static void setIterador(int iter) {
         iterador = iter;
@@ -204,8 +230,69 @@ public class AlgorismeFB
 
     /**
      * Funció per inicialitzar la variable defSolution (pels tests).
+     * 
+     * @param solucio Solució a la qual volem inicialitzar-la en els tests.
      */
     public static void setDefSolution(String[] solucio) {
         defSolution = solucio;
     }
+
+    public static void main (String[] args)
+    {
+        //Inicialización y input
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Número de productos: ");
+        int N = scanner.nextInt();
+        Shelf = new LinkedHashMap<>();
+        //Salto de linea
+        scanner.nextLine();
+
+        //Read
+        for (int i = 0; i < N; ++i)
+        {
+            System.out.print("Producto "+(i+1)+": ");
+            //Para el salto de línea
+            String clave = scanner.nextLine();
+            double[] similitudes = new double[N];
+            System.out.print("Similitudes del Producto "+(i+1)+": ");
+
+            //Leer la línea completa y dividir en partes
+            String[] entradas = scanner.nextLine().split(" ");
+            for (int j = 0; j < N; ++j)
+            {
+                try
+                {
+                    similitudes[j] = Double.parseDouble(entradas[j]);
+                    //System.out.println(similitudes[j]+" ");
+                }
+                catch (NumberFormatException e)
+                {
+                    System.out.println("Error: Entrada no válida");
+                    return;
+                }
+                Shelf.put(clave,similitudes);
+            }
+        }
+        //Cerramos puerto de entrada
+        scanner.close();
+        //System.out.print("\n"+N+"\n");
+        System.out.println("\nContenido del Shelf:");
+        for (Map.Entry<String, double[]> Input : Shelf.entrySet())
+        {
+            System.out.print("Clave: " + Input.getKey() + ", Similitudes: ");
+            for (double similitud : Input.getValue()) System.out.print(similitud + " ");
+            System.out.println();
+        }
+
+        String[] solution = new String[N];
+        defSolution = new String[N];
+        boolean[] used = new boolean[N];
+        scoreMax = 0.0;
+        for (int i = 0; i < N; ++i) used[i] = false;
+        backtracking(solution,used,0,N);
+        System.out.println("\nSolución óptima encontrada:");
+        System.out.println("Máxima similitud: " +scoreMax);
+        System.out.println();
+    }
+
 }

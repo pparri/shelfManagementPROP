@@ -5,6 +5,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Driver de la classe Ctrl_Domini
+ */
 public class DriverCtrl_Domini
 {
     private static CtrlDomini dom_ctrl = null;
@@ -13,12 +16,18 @@ public class DriverCtrl_Domini
     private static int s = 0;
     private static int d = 0;
 
+    /**
+     * Inicialitza el driver.
+     */
     private static void init_ctrl()
     {
         dom_ctrl = CtrlDomini.getInstancia();
         sc = new Scanner(System.in);
     }
 
+    /**
+     * Mostra les opcions disponibles.
+     */
     private static void mostrarVista()
     {
         System.out.println("1. Afegir producte(s).");
@@ -33,18 +42,36 @@ public class DriverCtrl_Domini
         System.out.println("10. Sortir.\n");
     }
 
+    /**
+     * Executa el mètode a partir de la opció seleccionada.
+     * 
+     * @param args String que indica la opció seleccionada.
+     */
     public static void main(String[] args)
     {
         init_ctrl();
         System.out.println("Driver de testeig del CONTROLADOR DE DOMINI!\n");
-
-        int opcio;
+        int opcio = -1;
+        boolean validG = false;
         while (true) {
             mostrarVista();
             System.out.print("Tria una opció: ");
-            opcio = sc.nextInt();
+            while (!validG)
+            {
+                if (sc.hasNextInt())
+                {
+                    opcio = sc.nextInt();
+                    validG = true;
+                }
+                else
+                {
+                    System.out.println("Error: No has introduït un enter.");
+                    System.out.print("Tria una opció: ");
+                    sc.next();
+                }
+            }
+            validG = false;
             sc.nextLine();
-
             if (opcio < 1 || opcio > num_opts) {
                 System.out.println("Opció no vàlida!!\n");
                 continue;
@@ -119,6 +146,9 @@ public class DriverCtrl_Domini
         }
     }
 
+    /**
+     * Funció que afegeix un o més productes a la cistella de productes.
+     */
     private static void afegirProducte() 
     {
         int metodeEntrada = 0;
@@ -148,9 +178,23 @@ public class DriverCtrl_Domini
             }
             else 
             {
-                System.out.print("Tria la quantitat de nodes que vols -> {1,3,5,8,11}: ");
                 String filepath = " ";
-                int c = sc.nextInt();
+                int c = -1;
+                boolean validF = false;
+                while (!validF)
+                {
+                    System.out.print("Tria els nodes escollits anteriorment -> {1,3,5,8,11}: ");
+                    if (sc.hasNextInt())
+                    {
+                        c = sc.nextInt();
+                        validF = true;
+                    }
+                    else
+                    {
+                        System.out.println("Error: No has introduït un enter.");
+                        sc.next();
+                    }
+                }
                 sc.nextLine();
                 if (c == 1) filepath = "drivers/recursos/afegirProductes1nodos.txt";
                 else if (c == 3) filepath = "drivers/recursos/afegirProductes3nodos.txt";
@@ -175,7 +219,7 @@ public class DriverCtrl_Domini
                         }
                     }
                     s = dom_ctrl.afegirProducte(id, sims, c);
-                    System.out.println("\nSUCCESS: Producte creat.\n");
+                    System.out.println("\nSUCCESS: Producte(s) creat(s).\n");
                     d = 1;
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());
@@ -232,6 +276,9 @@ public class DriverCtrl_Domini
         else System.out.println("Error: Mètode no vàlid.\n");
     }
 
+    /**
+     * Funció que elimina un producte de la cistella de productes.
+     */
     private static void eliminarProducte() 
     {
         int metodeEntrada = 0;
@@ -253,9 +300,23 @@ public class DriverCtrl_Domini
         sc.nextLine();
         if (metodeEntrada == 2) 
         {
-            System.out.print("Tria els nodes escollits anteriorment -> {1,3,5,8,11}: ");
             String filepath = " ";
-            int c = sc.nextInt();
+            int c = -1;
+            boolean validF = false;
+            while (!validF)
+            {
+                System.out.print("Tria els nodes escollits anteriorment -> {1,3,5,8,11}: ");
+                if (sc.hasNextInt())
+                {
+                    c = sc.nextInt();
+                    validF = true;
+                }
+                else
+                {
+                    System.out.println("Error: No has introduït un enter.");
+                    sc.next();
+                }
+            }
             sc.nextLine();
             if (c == 1) filepath = "drivers/recursos/eliminarProducte1nodos.txt";
             else if (c == 3) filepath = "drivers/recursos/eliminarProducte3nodos.txt";
@@ -293,6 +354,9 @@ public class DriverCtrl_Domini
         else System.out.println("Error: Mètode no vàlid.\n");
     }
 
+    /**
+     * Funció que modifica el grau de similitud entre dos productes.
+     */
     private static void modificarGrauSimilitud() 
     {
         int metodeEntrada = 0;
@@ -314,9 +378,23 @@ public class DriverCtrl_Domini
         sc.nextLine();
         if (metodeEntrada == 2)
         {
-            System.out.print("Tria els nodes escollits anteriorment -> {1,3,5,8,11}: ");
             String filepath = " ";
-            int c = sc.nextInt();
+            int c = -1;
+            boolean validF = false;
+            while (!validF)
+            {
+                System.out.print("Tria els nodes escollits anteriorment -> {1,3,5,8,11}: ");
+                if (sc.hasNextInt())
+                {
+                    c = sc.nextInt();
+                    validF = true;
+                }
+                else
+                {
+                    System.out.println("Error: No has introduït un enter.");
+                    sc.next();
+                }
+            }
             sc.nextLine();
             if (c == 1) filepath = "drivers/recursos/modificarGrauSimilitud1nodos.txt";
             else if (c == 3) filepath = "drivers/recursos/modificarGrauSimilitud3nodos.txt";

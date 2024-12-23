@@ -35,8 +35,8 @@ public class DriverCtrl_Algoritme
 
   }
 
-    /**
-   * Llegenda de funcions
+  /**
+   * Mostra les opcions disponibles.
    */
   private static void mostrarVista()
   {
@@ -49,8 +49,8 @@ public class DriverCtrl_Algoritme
     System.out.println("6. Sortir.\n");
   }
 
-      /**
-   * Llegir input
+  /**
+   * Funció que llegeix l'input.
    */
   private static Map<String,ArrayList<Double>> llegirInput() 
   {
@@ -177,19 +177,27 @@ public class DriverCtrl_Algoritme
         init_ctrl();
         if (num_opts == 0) return;
         System.out.println("Driver de testeig del CONTROLADOR DE ALGORITME!\n");
-
-        int opcio;
-        while (true) 
-        {
+        int opcio = -1;
+        boolean validG = false;
+        while (true) {
             mostrarVista();
             System.out.print("Tria una opció: ");
-            opcio = sc.nextInt();
-            sc.nextLine();
-
-            if (opcio < 1 || opcio > num_opts) {
-                System.out.println("Opció no vàlida!!\n");
-                continue;
+            while (!validG)
+            {
+                if (sc.hasNextInt())
+                {
+                    opcio = sc.nextInt();
+                    validG = true;
+                }
+                else
+                {
+                    System.out.println("Error: No has introduït un enter.");
+                    System.out.print("Tria una opció: ");
+                    sc.next();
+                }
             }
+            validG = false;
+            sc.nextLine();
             switch(opcio)
             {
               case 1:
@@ -236,6 +244,9 @@ public class DriverCtrl_Algoritme
               case 6:
               System.out.print("Moltes gràcies per provar el DRIVER de ALGORITME!\n");
               return;
+
+            default:
+              System.out.println("Opció no vàlida!\n");
             }
         }
 
@@ -244,7 +255,7 @@ public class DriverCtrl_Algoritme
 /* ----------------------------------FUNCIONS CONSULTA------------------------------ */
 
     /**
-     * Consulta el PRESTATGE
+     * Mètode que consulta el PRESTATGE, i el mostra a l'usuari.
      */
    static public void consultarPrestatge()
     {
@@ -263,7 +274,7 @@ public class DriverCtrl_Algoritme
 	  }
 
      /**
-     * Consulta el Arbre d'expansió mínima (KRUSKAL)
+     * Mètode que consulta el Arbre d'expansió mínima (KRUSKAL), i el mostra a l'usuari.
      */
     static public void mostrarMST(List<DistribucioKruskal.Aresta> mst) 
     {
@@ -275,7 +286,7 @@ public class DriverCtrl_Algoritme
     }
 
     /**
-     * Consulta el Cicle Eulerià generat fent un DFS en base al Kruskal
+     * Mètode que consulta el Cicle Eulerià generat fent un DFS en base al Kruskal, i el mostra a l'usuari.
      */
     static public void mostrarCicleEuleria(List<String> cicloEuleriano) 
     {
